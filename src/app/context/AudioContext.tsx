@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 
 const AudioContext = createContext({
   isPlaying: false,
@@ -8,15 +8,19 @@ const AudioContext = createContext({
   pauseAudio: () => {}
 });
 
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 interface AudioProviderProps {
   children: ReactNode;
 }
 
 export const AudioProvider = ({ children }: AudioProviderProps) => {
-  const audioRef = useRef(new Audio('/audio/audio.mp3'));
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    audioRef.current = new Audio('/audio/audio.mp3');
+  }, []);
 
   const playAudio = () => {
     const audio = audioRef.current;
