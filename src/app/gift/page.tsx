@@ -70,7 +70,15 @@ function easeInOutSine(x: number): number {
   return -(Math.cos(Math.PI * x) - 1) / 2;
 }
 
-export default function Page() {
+export default function Gift() {
+  return (
+    <Suspense>
+      <Page />
+    </Suspense>
+  );
+}
+
+function Page() {
   const router = useRouter();
   const initialAnimationDone = useRef(false);
   const startTime = useRef<number | null>(null);

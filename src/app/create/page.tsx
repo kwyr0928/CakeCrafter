@@ -20,7 +20,15 @@ import {
 } from "../config/models";
 import AudioContext from "../context/AudioContext";
 
-export default function Page() {
+export default function Create() {
+  return (
+    <Suspense>
+      <Page />
+    </Suspense>
+  );
+}
+
+function Page() {
   const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
   const params = useSearchParams();
   const cakeParams = params.get("cake");
