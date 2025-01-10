@@ -56,7 +56,7 @@ function Page() {
   });
   const [cakeRotation, setCakeRotation] = useState({ x: 0, y: 0, z: 0 });
   const [direction, setDirection] = useState(0);
-  const [selectedColor, setSelectedColor] = useState("#8B4513");
+  const [selectedColor, setSelectedColor] = useState("#3b1a02");
 
   const handleColorClick = (index) => {
     setSelectedColor(index);
@@ -773,7 +773,7 @@ function Page() {
       </Canvas>
       <div className="absolute bottom-16 left-6 space-y-2 mb-1">
       <div onClick={() => handleColorClick("#F3E5AB")} style={{ backgroundColor: "#F3E5AB", width: "40px", height: "40px", borderRadius: "50%" }}></div>
-        <div onClick={() => handleColorClick("#8B4513")} style={{ backgroundColor: "#8B4513", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#3b1a02")} style={{ backgroundColor: "#8B4513", width: "40px", height: "40px", borderRadius: "50%" }}></div>
         <div onClick={() => handleColorClick("#98FF98")} style={{ backgroundColor: "#98FF98", width: "40px", height: "40px", borderRadius: "50%" }}></div>
         <div onClick={() => handleColorClick("#FFB7C5")} style={{ backgroundColor: "#FFB7C5", width: "40px", height: "40px", borderRadius: "50%" }}></div>
         <div onClick={() => handleColorClick("#6A5ACD")} style={{ backgroundColor: "#6A5ACD", width: "40px", height: "40px", borderRadius: "50%" }}></div>
