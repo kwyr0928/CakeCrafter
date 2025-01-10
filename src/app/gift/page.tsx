@@ -92,7 +92,8 @@ function Page() {
   const [cakeDecorations, setCakeDecorations] = useState<
     { path: string; position: number[]; scale: number[]; rotation?: number[] }[]
   >([]);
-  const [selectedColor, setSelectedColor] = useState("#8B4513");
+  const [selectedColor1, setSelectedColor1] = useState("#8B4513");
+  const [selectedColor2, setSelectedColor2] = useState("#c2743d");
 
   function SoundControl({ isPlaying, playAudio, pauseAudio }: { isPlaying: boolean; playAudio: () => void; pauseAudio: () => void; }) {
     const soundOnTexture = useLoader(TextureLoader, '/img/soundOn.png');
@@ -140,12 +141,14 @@ function Page() {
       try {
         const decodedState = JSON.parse(decodeURIComponent(data)) as {
           cake: string;
-          selectedColor: string;
+          selectedColor1: string;
+          selectedColor2: string;
           decorations: { path: string; position: number[]; scale: number[]; rotation?: number[] }[];
         };
         console.log(decodedState);
         setCake(decodedState.cake);
-        setSelectedColor(decodedState.selectedColor);
+        setSelectedColor1(decodedState.selectedColor1);
+        setSelectedColor2(decodedState.selectedColor2);
         setCakeDecorations(decodedState.decorations);
       } catch (error) {
         console.error("デコード失敗", error);
@@ -174,15 +177,15 @@ function Page() {
                 {cake === "Circle" ? (
                   <Circle
                 position={CAKES.Circle.defaultPosition}
-                scale={CAKES.Circle.defaultScale} color={selectedColor}                  />
+                scale={CAKES.Circle.defaultScale} color1={selectedColor1} color2={selectedColor2}                 />
                 ) : cake === "Square" ? (
                   <Square
                   position={CAKES.Square.defaultPosition}
-                  scale={CAKES.Square.defaultScale} color={selectedColor}                  />
+                  scale={CAKES.Square.defaultScale} color1={selectedColor1} color2={selectedColor2}                 />
                 ) : cake === "Triangle" ? (
                   <Triangle
                     position={CAKES.Triangle.defaultPosition}
-                    scale={CAKES.Triangle.defaultScale} color={selectedColor}                  />
+                    scale={CAKES.Triangle.defaultScale} color1={selectedColor1} color2={selectedColor2}                 />
                 ) : null}
                 {cakeDecorations.map((decoration, index) => (
                   <group key={index}>

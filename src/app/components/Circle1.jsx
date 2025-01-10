@@ -6,13 +6,13 @@ Command: npx gltfjsx@6.5.3 public/models/cake/circle1.glb
 import { useGLTF } from '@react-three/drei'
 import { MeshStandardMaterial } from 'three'
 
-export function Circle({ color, ...props }) {
+export function Circle({ color1, color2, ...props }) {
   const { nodes, materials } = useGLTF('/models/cake/circle1.glb')
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Cream_Chocolate003.geometry} material={new MeshStandardMaterial({ color: color })} />
+      <mesh geometry={nodes.Cream_Chocolate003.geometry} material={new MeshStandardMaterial({ color: color1 })} />
       <mesh geometry={nodes.Cream_Chocolate003_1.geometry} material={materials['2.003']} />
-      <mesh geometry={nodes.Cream_Chocolate003_2.geometry} material={materials['3.003']} />
+      <mesh geometry={nodes.Cream_Chocolate003_2.geometry} material={new MeshStandardMaterial({ color: color2 })} />
     </group>
   )
 }

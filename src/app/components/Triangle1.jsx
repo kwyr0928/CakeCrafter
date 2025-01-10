@@ -6,11 +6,11 @@ Command: npx gltfjsx@6.5.3 public/models/cake/triangle1.glb
 import { useGLTF } from '@react-three/drei'
 import { MeshStandardMaterial } from 'three'
 
-export function Triangle({ color, ...props }) {
+export function Triangle({ color1, color2, ...props }) {
   const { nodes, materials } = useGLTF('/models/cake/triangle1.glb')
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Cream013.geometry} material={new MeshStandardMaterial({ color: color })} />
+      <mesh geometry={nodes.Cream013.geometry} material={new MeshStandardMaterial({ color: color1 })} />
       <mesh geometry={nodes.Cream013_1.geometry} material={materials['2.006']} />
     </group>
   )

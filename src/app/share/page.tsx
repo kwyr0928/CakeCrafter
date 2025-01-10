@@ -103,7 +103,8 @@ export default function Page() {
   const initialAnimationDone = useRef(false);
   const startTime = useRef<number | null>(null);
   const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
-  const [selectedColor, setSelectedColor] = useState("#8B4513");
+  const [selectedColor1, setSelectedColor1] = useState("#8B4513");
+  const [selectedColor2, setSelectedColor2] = useState("#c2743d");
 
   function LinkControl({}) {
   const linkTexture = useLoader(TextureLoader, "/img/link.png");
@@ -155,7 +156,8 @@ export default function Page() {
   const handleLink = () => {
     const data = {
       cake,
-      selectedColor,
+      selectedColor1,
+      selectedColor2,
       decorations: cakeDecorations,
     };
     const encodedData = encodeURIComponent(JSON.stringify(data));
@@ -180,7 +182,8 @@ export default function Page() {
     if (cakeData) {
       const parsedCakeData = JSON.parse(cakeData) as {
         cake: string;
-        selectedColor: string;
+        selectedColor1: string;
+        selectedColor2: string;
         decorations: {
           path: string;
           position: number[];
@@ -189,7 +192,8 @@ export default function Page() {
         }[];
       };
       setCake(parsedCakeData.cake);
-      setSelectedColor(parsedCakeData.selectedColor)
+      setSelectedColor1(parsedCakeData.selectedColor1);
+      setSelectedColor2(parsedCakeData.selectedColor2);
       setCakeDecorations(parsedCakeData.decorations);
     }
   }, []);
@@ -215,15 +219,15 @@ export default function Page() {
             {cake === "Circle" ? (
               <Circle
                 position={CAKES.Circle.defaultPosition}
-                scale={CAKES.Circle.defaultScale} color={selectedColor}              />
+                scale={CAKES.Circle.defaultScale} color1={selectedColor1}  color2={selectedColor2}             />
             ) : cake === "Square" ? (
               <Square
                   position={CAKES.Square.defaultPosition}
-                  scale={CAKES.Square.defaultScale} color={selectedColor}              />
+                  scale={CAKES.Square.defaultScale} color1={selectedColor1} color2={selectedColor2}              />
             ) : cake === "Triangle" ? (
               <Triangle
                     position={CAKES.Triangle.defaultPosition}
-                    scale={CAKES.Triangle.defaultScale} color={selectedColor}              />
+                    scale={CAKES.Triangle.defaultScale} color1={selectedColor1} color2={selectedColor2}              />
             ) : null}
             {cakeDecorations.map((decoration, index) => (
               <group key={index}>
