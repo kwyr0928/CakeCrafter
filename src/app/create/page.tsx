@@ -678,7 +678,13 @@ function Page() {
           backgroundRotation={[0, 1.6, 0]}
           background
         />
-        <Suspense fallback={null}>
+        <Suspense fallback={<mesh>
+          <Model
+                path={MODELS.Loading.path}
+                position={MODELS.Loading.defaultPosition}
+                scale={MODELS.Loading.defaultScale}
+              />
+        </mesh>}>
           <group rotation={[cakeRotation.x, cakeRotation.y, cakeRotation.z]}>
             {cake === "Circle" ? (
               <Model

@@ -195,7 +195,13 @@ export default function Page() {
           backgroundRotation={[0, 1.6, 0]}
           background
         />
-        <Suspense fallback={null}>
+        <Suspense fallback={<mesh>
+          <Model
+                path={MODELS.Loading.path}
+                position={MODELS.Loading.defaultPosition}
+                scale={MODELS.Loading.defaultScale}
+              />
+        </mesh>}>
           <SparkleEffect />
           <CameraController />
           <group position={[0, 1, 0]}>
