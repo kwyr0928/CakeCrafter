@@ -5,7 +5,10 @@ import { Canvas, useLoader, type ThreeEvent } from "@react-three/fiber";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import { TextureLoader, type Group } from "three";
+import { Circle } from "../components/Circle1";
 import { Model } from "../components/Model";
+import { Square } from "../components/Square1";
+import { Triangle } from "../components/Triangle1";
 import {
   CAKES,
   CHRISTMAS,
@@ -53,7 +56,12 @@ function Page() {
   });
   const [cakeRotation, setCakeRotation] = useState({ x: 0, y: 0, z: 0 });
   const [direction, setDirection] = useState(0);
+  const [selectedColor, setSelectedColor] = useState("#8B4513");
 
+  const handleColorClick = (index) => {
+    setSelectedColor(index);
+    console.log("Selected color index:", index);
+  };
 
   function ButtonControl({}) {
   const moveTexture = useLoader(TextureLoader, "/img/move.png");
@@ -211,21 +219,26 @@ function Page() {
     }
     const data = {
       cake,
+      selectedColor,
       decorations: cakeDecorations,
     };
-    
     console.log(cakeDecorations);
     localStorage.setItem("cakeData", JSON.stringify(data));
-  }, [cakeDecorations, cake]);
+  }, [cakeDecorations, cake, selectedColor]);
 
   useEffect(() => {
     const cakeData = localStorage.getItem("cakeData");
     if (cakeData) {
-    const parsedCakeData = JSON.parse(cakeData) as { cake: string; decorations: { path: string; position: number[]; scale: number[]; rotation?: number[] }[] };
+    const parsedCakeData = JSON.parse(cakeData) as { cake: string; selectedColor: string; decorations: { path: string; position: number[]; scale: number[]; rotation?: number[] }[] };
+    if (parsedCakeData.cake !== cakeParams){
+      localStorage.clear();
+    } else {
     setCake(parsedCakeData.cake);
+    setSelectedColor(parsedCakeData.selectedColor)
     setCakeDecorations(parsedCakeData.decorations);
     }
-  }, []);
+    }
+  }, [cakeParams]);
 
   const handleCreate = () => {
     router.push("/share");
@@ -687,22 +700,18 @@ function Page() {
         </mesh>}>
           <group rotation={[cakeRotation.x, cakeRotation.y, cakeRotation.z]}>
             {cake === "Circle" ? (
-              <Model
-                path={CAKES.Circle.path}
+              <Circle
                 position={CAKES.Circle.defaultPosition}
-                scale={CAKES.Circle.defaultScale}
-              />
+                scale={CAKES.Circle.defaultScale} color={selectedColor} />
             ) : cake === "Square" ? (
-              <Model
-                path={CAKES.Square.path}
+              <Square
                 position={CAKES.Square.defaultPosition}
-                scale={CAKES.Square.defaultScale}
+                scale={CAKES.Square.defaultScale} color={selectedColor}
               />
             ) : cake === "Triangle" ? (
-              <Model
-                path={CAKES.Triangle.path}
+              <Triangle
                 position={CAKES.Triangle.defaultPosition}
-                scale={CAKES.Triangle.defaultScale}
+                scale={CAKES.Triangle.defaultScale} color={selectedColor}
               />
             ) : null}
             {cakeDecorations.map((decoration, index) => (
@@ -755,6 +764,16 @@ function Page() {
           <ButtonControl />
         </Suspense>
       </Canvas>
+      <div className="absolute bottom-16 left-6 space-y-2 mb-1">
+      <div onClick={() => handleColorClick("#F3E5AB")} style={{ backgroundColor: "#F3E5AB", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#8B4513")} style={{ backgroundColor: "#8B4513", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#98FF98")} style={{ backgroundColor: "#98FF98", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#FFB7C5")} style={{ backgroundColor: "#FFB7C5", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#6A5ACD")} style={{ backgroundColor: "#6A5ACD", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#A3C585")} style={{ backgroundColor: "#A3C585", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#D2B48C")} style={{ backgroundColor: "#D2B48C", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+        <div onClick={() => handleColorClick("#FFF44F")} style={{ backgroundColor: "#FFF44F", width: "40px", height: "40px", borderRadius: "50%" }}></div>
+      </div>
     </div>
   );
 }

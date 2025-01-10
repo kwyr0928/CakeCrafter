@@ -49,6 +49,8 @@ export default function Page() {
     );
   }
 
+ 
+
   return (
     <div className="h-screen w-full">
       <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>

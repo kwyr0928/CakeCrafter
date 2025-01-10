@@ -50,17 +50,17 @@ export const MODELS = {
 
 export const CAKES = {
   Circle: {
-    path: "/models/cake/circle.glb",
+    path: "/models/cake/circle1.glb",
     defaultPosition: [0, -1.8, 0],
     defaultScale: [0.25, 0.25, 0.25],
   },
   Square: {
-    path: "/models/cake/square.glb",
+    path: "/models/cake/square1.glb",
     defaultPosition: [0, -2, 0],
     defaultScale: [0.28, 0.28, 0.28],
   },
   Triangle: {
-    path: "/models/cake/triangle.glb",
+    path: "/models/cake/triangle1.glb",
     defaultPosition: [0, -2, 0],
     defaultScale: [0.23, 0.23, 0.23],
   },

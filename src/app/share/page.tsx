@@ -10,7 +10,10 @@ import {
   TextureLoader,
   Vector3,
 } from "three";
+import { Circle } from "../components/Circle1";
 import { Model } from "../components/Model";
+import { Square } from "../components/Square1";
+import { Triangle } from "../components/Triangle1";
 import { CAKES, MODELS } from "../config/models";
 import AudioContext from "../context/AudioContext";
 
@@ -100,6 +103,7 @@ export default function Page() {
   const initialAnimationDone = useRef(false);
   const startTime = useRef<number | null>(null);
   const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
+  const [selectedColor, setSelectedColor] = useState("#8B4513");
 
   function LinkControl({}) {
   const linkTexture = useLoader(TextureLoader, "/img/link.png");
@@ -151,6 +155,7 @@ export default function Page() {
   const handleLink = () => {
     const data = {
       cake,
+      selectedColor,
       decorations: cakeDecorations,
     };
     const encodedData = encodeURIComponent(JSON.stringify(data));
@@ -175,6 +180,7 @@ export default function Page() {
     if (cakeData) {
       const parsedCakeData = JSON.parse(cakeData) as {
         cake: string;
+        selectedColor: string;
         decorations: {
           path: string;
           position: number[];
@@ -183,6 +189,7 @@ export default function Page() {
         }[];
       };
       setCake(parsedCakeData.cake);
+      setSelectedColor(parsedCakeData.selectedColor)
       setCakeDecorations(parsedCakeData.decorations);
     }
   }, []);
@@ -206,23 +213,17 @@ export default function Page() {
           <CameraController />
           <group position={[0, 1, 0]}>
             {cake === "Circle" ? (
-              <Model
-                path={CAKES.Circle.path}
+              <Circle
                 position={CAKES.Circle.defaultPosition}
-                scale={CAKES.Circle.defaultScale}
-              />
+                scale={CAKES.Circle.defaultScale} color={selectedColor}              />
             ) : cake === "Square" ? (
-              <Model
-                path={CAKES.Square.path}
-                position={CAKES.Square.defaultPosition}
-                scale={CAKES.Square.defaultScale}
-              />
+              <Square
+                  position={CAKES.Square.defaultPosition}
+                  scale={CAKES.Square.defaultScale} color={undefined}              />
             ) : cake === "Triangle" ? (
-              <Model
-                path={CAKES.Triangle.path}
-                position={CAKES.Triangle.defaultPosition}
-                scale={CAKES.Triangle.defaultScale}
-              />
+              <Triangle
+                    position={CAKES.Triangle.defaultPosition}
+                    scale={CAKES.Triangle.defaultScale} color={undefined}              />
             ) : null}
             {cakeDecorations.map((decoration, index) => (
               <group key={index}>
