@@ -43,7 +43,7 @@ export const MODELS = {
   Arrow2: {
     path: "/models/arrow2.glb",
     defaultPosition: [0, 0, 0],
-    defaultScale: [0.4, 0.4, 0.4],
+    defaultScale: [0.18, 0.18, 0.18],
   },
   
 }

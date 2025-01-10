@@ -197,7 +197,7 @@ function Page() {
               />
               <mesh
                 onClick={() => router.push(`/`)}
-                position={[-17, 7.5, -10]}
+                position={[-8.4, 3.8, 0]}
               >
                 <Model
                   path={MODELS.Arrow2.path}

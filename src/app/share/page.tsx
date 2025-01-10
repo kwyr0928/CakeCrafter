@@ -80,8 +80,8 @@ const ScreenshotButton = () => {
     link.click();
   };
   return (
-    <mesh onClick={takeScreenshot} position={[14, 7.3, -10]}>
-      <boxGeometry args={[2, 2, 0.1]} />
+    <mesh onClick={takeScreenshot} position={[8.5, 3.7, 0]}>
+      <boxGeometry args={[1, 1, 0.1]} />
       <meshBasicMaterial map={cameraTexture} />
     </mesh>
   );
@@ -104,8 +104,8 @@ export default function Page() {
   function LinkControl({}) {
   const linkTexture = useLoader(TextureLoader, "/img/link.png");
     return (
-  <mesh onClick={handleLink} position={[17, 7.3, -10]}>
-  <boxGeometry args={[2, 2, 0.1]} />
+  <mesh onClick={handleLink} position={[7, 3.7, 0]}>
+  <boxGeometry args={[1, 1, 0.1]} />
   <meshBasicMaterial map={linkTexture} />
 </mesh>
     )};
@@ -237,7 +237,7 @@ export default function Page() {
           />
           <mesh
             onClick={() => router.push(`/create?cake=${cake}`)}
-            position={[-17, 7.5, -10]}
+            position={[-8.4, 3.8, 0]}
           >
             <Model
               path={MODELS.Arrow2.path}
