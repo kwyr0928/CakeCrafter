@@ -21,10 +21,11 @@ export function Model({ path, position, scale, rotation }: ModelProps) {
   const { actions } = useAnimations(animations, scene);
 
   useEffect(() => {
-    const actionKey = Object.keys(actions)[0];
-    if (actionKey && actions?.[actionKey]) {
-      actions[actionKey].play();
-    }
+    Object.keys(actions).forEach(actionKey => {
+      if (actions[actionKey]) {
+        actions[actionKey].play();
+      }
+    });
     return () => {
       Object.values(actions).forEach(action => {
         if (action) action.stop();

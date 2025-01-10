@@ -8,7 +8,7 @@ export const MODELS = {
   Loading: {
     path: "/models/text/loading.glb",
     defaultPosition: [0, 0, 0],
-    defaultScale: [0.2, 0.2, 0.2],
+    defaultScale: [0.15, 0.15, 0.15],
   },
   Desk: {
     path: "/models/back/desk.glb",
