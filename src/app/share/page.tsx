@@ -219,11 +219,11 @@ export default function Page() {
             ) : cake === "Square" ? (
               <Square
                   position={CAKES.Square.defaultPosition}
-                  scale={CAKES.Square.defaultScale} color={undefined}              />
+                  scale={CAKES.Square.defaultScale} color={selectedColor}              />
             ) : cake === "Triangle" ? (
               <Triangle
                     position={CAKES.Triangle.defaultPosition}
-                    scale={CAKES.Triangle.defaultScale} color={undefined}              />
+                    scale={CAKES.Triangle.defaultScale} color={selectedColor}              />
             ) : null}
             {cakeDecorations.map((decoration, index) => (
               <group key={index}>

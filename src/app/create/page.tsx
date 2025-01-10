@@ -241,6 +241,13 @@ function Page() {
   }, [cakeParams]);
 
   const handleCreate = () => {
+    const data = {
+      cake,
+      selectedColor,
+      decorations: cakeDecorations,
+    };
+    console.log(cakeDecorations);
+    localStorage.setItem("cakeData", JSON.stringify(data));
     router.push("/share");
   };
 
