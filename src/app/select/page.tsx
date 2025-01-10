@@ -32,8 +32,23 @@ const AnimatedArrow = ({ position, onClick, rotation }) => {
 export default function Page() {
   const router = useRouter();
   const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
-  const soundOnTexture = useLoader(TextureLoader, '/img/soundOn.png');
-  const soundOffTexture = useLoader(TextureLoader, '/img/soundOff.png');
+
+  function SoundControl({ isPlaying, playAudio, pauseAudio }: { isPlaying: boolean; playAudio: () => void; pauseAudio: () => void; }) {
+    const soundOnTexture = useLoader(TextureLoader, '/img/soundOn.png');
+    const soundOffTexture = useLoader(TextureLoader, '/img/soundOff.png');
+  
+    return (
+      <mesh onClick={isPlaying ? pauseAudio : playAudio} position={[-8.5, 2.8, 0]}>
+        <boxGeometry args={[0.6, 0.6, 0.1]} />
+        {isPlaying ? (
+          <meshBasicMaterial map={soundOnTexture} />
+        ) : (
+          <meshBasicMaterial map={soundOffTexture} />
+        )}
+      </mesh>
+    );
+  }
+
   return (
     <div className="h-screen w-full">
       <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
@@ -56,6 +71,7 @@ export default function Page() {
           >
             Select your cake !
           </Text>
+          <SoundControl isPlaying={isPlaying} playAudio={playAudio} pauseAudio={pauseAudio} />
           <AnimatedArrow 
             position={[0, 0.7, 0]} 
             onClick={() => router.push("/create?cake=Circle")}
@@ -101,17 +117,6 @@ export default function Page() {
             position={MODELS.Arrow2.defaultPosition}
             scale={MODELS.Arrow2.defaultScale}
           />
-          </mesh>
-          <mesh
-            onClick={isPlaying ? pauseAudio : playAudio}
-            position={[-8.5, 2.8, 0]}
-          >
-            <boxGeometry args={[0.6, 0.6, 0.1]} />
-            {isPlaying ? (
-            <meshBasicMaterial map={soundOnTexture} />
-            ) : (
-            <meshBasicMaterial map={soundOffTexture} />
-            )}
           </mesh>
           <OrbitControls/>
         </Suspense>

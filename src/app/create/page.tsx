@@ -21,17 +21,7 @@ import {
 import AudioContext from "../context/AudioContext";
 
 export default function Page() {
-  const moveTexture = useLoader(TextureLoader, "/img/move.png");
-  const rotateTexture = useLoader(TextureLoader, "/img/rotate.png");
-  const scaleTexture = useLoader(TextureLoader, "/img/scale.png");
-  const changeUpTexture = useLoader(TextureLoader, "/img/up.png");
-  const changeDownTexture = useLoader(TextureLoader, "/img/down.png");
-  const deleteTexture = useLoader(TextureLoader, "/img/delete.png");
-  const leftTexture = useLoader(TextureLoader, "/img/leftArrow.png");
-  const rightTexture = useLoader(TextureLoader, "/img/rightArrow.png");
   const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
-  const soundOnTexture = useLoader(TextureLoader, '/img/soundOn.png');
-  const soundOffTexture = useLoader(TextureLoader, '/img/soundOff.png');
   const params = useSearchParams();
   const cakeParams = params.get("cake");
   const [cake, setCake] = useState(cakeParams);
@@ -55,6 +45,157 @@ export default function Page() {
   });
   const [cakeRotation, setCakeRotation] = useState({ x: 0, y: 0, z: 0 });
   const [direction, setDirection] = useState(0);
+
+
+  function ButtonControl({}) {
+  const moveTexture = useLoader(TextureLoader, "/img/move.png");
+  const rotateTexture = useLoader(TextureLoader, "/img/rotate.png");
+  const scaleTexture = useLoader(TextureLoader, "/img/scale.png");
+  const deleteTexture = useLoader(TextureLoader, "/img/delete.png");
+  const leftTexture = useLoader(TextureLoader, "/img/leftArrow.png");
+  const rightTexture = useLoader(TextureLoader, "/img/rightArrow.png");
+    return (
+<group>
+    <mesh onClick={() => setEditMode("move")} position={[-17, -1, -10]}>
+          <boxGeometry args={[1.5, 1.5, 0.1]} />
+          <meshBasicMaterial map={moveTexture} />
+          </mesh>
+        <mesh position={[-17, -1, -10]}>
+         <boxGeometry args={[1.7, 1.7, 0.09]} />
+         {editMode === "move" ? (
+         <meshStandardMaterial color="#da2d52" />
+        ) : (
+    <meshStandardMaterial color="#e29b00" />
+        )}
+      </mesh>
+        <mesh
+       onClick={() => setEditMode("rotate")}
+     position={[-17, -3, -10]}
+        >
+      <boxGeometry args={[1.5, 1.5, 0.1]} />
+      <meshBasicMaterial map={rotateTexture} />
+        </mesh>
+        <mesh position={[-17, -3, -10]}>
+        <boxGeometry args={[1.7, 1.7, 0.09]} />
+      {editMode === "rotate" ? (
+    <meshStandardMaterial color="#da2d52" />
+      ) : (
+        <meshStandardMaterial color="#e29b00" />
+       )}
+        </mesh>
+      <mesh
+        onClick={() => setEditMode("scale")}
+      position={[-17, -5, -10]}
+      >
+       <boxGeometry args={[1.5, 1.5, 0.1]} />
+     <meshBasicMaterial map={scaleTexture} />
+          </mesh>
+      <mesh position={[-17, -5, -10]}>
+        <boxGeometry args={[1.7, 1.7, 0.09]} />
+      {editMode === "scale" ? (
+        <meshStandardMaterial color="#da2d52" />
+      ) : (
+        <meshStandardMaterial color="#e29b00" />
+      )}
+        </mesh>
+        <mesh
+       onClick={() =>
+    selectedIndex !== null && handleDelete(selectedIndex)
+      }
+       position={[-17, -7, -10]}
+        >
+     <boxGeometry args={[1.5, 1.5, 0.1]} />
+        <meshBasicMaterial map={deleteTexture} />
+          </mesh>
+        <mesh position={[-17, -7, -10]}>
+        <boxGeometry args={[1.7, 1.7, 0.09]} />
+       <meshStandardMaterial color="#e29b00" />
+        </mesh>
+        <mesh
+         position={[-8, -5, -10]}
+       onClick={() => {
+       setCakeRotation((prev) => ({
+      x: prev.x,
+      y: prev.y - Math.PI / 2,
+      z: prev.z,
+        }));
+            setDirection((prev) => (prev - 1 + 4) % 4);
+        }}
+     >
+        <boxGeometry args={[1.2, 1.2, 0.1]} />
+        <meshBasicMaterial map={leftTexture} />
+    </mesh>
+<mesh position={[-8, -5, -10]}>
+  <boxGeometry args={[1.3, 1.3, 0.09]} />
+  <meshStandardMaterial color="#e29b00" />
+</mesh>
+<mesh
+  position={[8, -5, -10]}
+  onClick={() => {
+    setCakeRotation((prev) => ({
+      x: prev.x,
+      y: prev.y + Math.PI / 2,
+      z: prev.z,
+    }));
+    setDirection((prev) => (prev + 1) % 4);
+  }}
+>
+  <boxGeometry args={[1.2, 1.2, 0.1]} />
+  <meshBasicMaterial map={rightTexture} />
+</mesh>
+<mesh position={[8, -5, -10]}>
+  <boxGeometry args={[1.3, 1.3, 0.09]} />
+  <meshStandardMaterial color="#e29b00" />
+</mesh></group>
+);
+}
+
+  function ChangeControl({}) {
+  const changeUpTexture = useLoader(TextureLoader, "/img/up.png");
+  const changeDownTexture = useLoader(TextureLoader, "/img/down.png");
+    return (
+      <group>
+        <mesh
+          onClick={() => setSelectMode(selectMode === 0 ? 5 : selectMode - 1)}
+         position={[17, 6, -10]}
+          >
+        <boxGeometry args={[1.2, 1.2, 0.1]} />
+          <meshBasicMaterial map={changeUpTexture} />
+          </mesh>
+          <mesh position={[17, 6, -10]}>
+            <boxGeometry args={[1.3, 1.3, 0.09]} />
+          <meshStandardMaterial color="#e29b00" />
+          </mesh>
+        <mesh
+         onClick={() => setSelectMode((selectMode + 1) % 6)}
+          position={[17, 4, -10]}
+          >
+          <boxGeometry args={[1.2, 1.2, 0.1]} />
+          <meshBasicMaterial map={changeDownTexture} />
+          </mesh>
+            <mesh position={[17, 4, -10]}>
+          <boxGeometry args={[1.3, 1.3, 0.09]} />
+          <meshStandardMaterial color="#e29b00" />
+        </mesh>
+      </group>
+);
+}
+
+  function SoundControl({ isPlaying, playAudio, pauseAudio }: { isPlaying: boolean; playAudio: () => void; pauseAudio: () => void; }) {
+    const soundOnTexture = useLoader(TextureLoader, '/img/soundOn.png');
+    const soundOffTexture = useLoader(TextureLoader, '/img/soundOff.png');
+  
+    return (
+      <mesh onClick={isPlaying ? pauseAudio : playAudio} position={[-8.5, 2.8, 0]}>
+        <boxGeometry args={[0.6, 0.6, 0.1]} />
+        {isPlaying ? (
+          <meshBasicMaterial map={soundOnTexture} />
+        ) : (
+          <meshBasicMaterial map={soundOffTexture} />
+        )}
+      </mesh>
+    );
+  }
 
   useEffect(() => {
     if (cakeDecorations.length === 0) {
@@ -579,28 +720,6 @@ export default function Page() {
             <PRESENTGroup />
           ) : null}
           <mesh
-            onClick={() => setSelectMode(selectMode === 0 ? 5 : selectMode - 1)}
-            position={[17, 6, -10]}
-          >
-            <boxGeometry args={[1.2, 1.2, 0.1]} />
-            <meshBasicMaterial map={changeUpTexture} />
-          </mesh>
-          <mesh position={[17, 6, -10]}>
-            <boxGeometry args={[1.3, 1.3, 0.09]} />
-            <meshStandardMaterial color="#e29b00" />
-          </mesh>
-          <mesh
-            onClick={() => setSelectMode((selectMode + 1) % 6)}
-            position={[17, 4, -10]}
-          >
-            <boxGeometry args={[1.2, 1.2, 0.1]} />
-            <meshBasicMaterial map={changeDownTexture} />
-          </mesh>
-          <mesh position={[17, 4, -10]}>
-            <boxGeometry args={[1.3, 1.3, 0.09]} />
-            <meshStandardMaterial color="#e29b00" />
-          </mesh>
-          <mesh
             onClick={() => router.push("/select")}
             position={[-17, 7.5, -10]}
           >
@@ -617,109 +736,9 @@ export default function Page() {
               scale={MODELS.Arrow1.defaultScale}
             />
           </mesh>
-
-          <mesh onClick={() => setEditMode("move")} position={[-17, -1, -10]}>
-            <boxGeometry args={[1.5, 1.5, 0.1]} />
-            <meshBasicMaterial map={moveTexture} />
-          </mesh>
-          <mesh position={[-17, -1, -10]}>
-            <boxGeometry args={[1.7, 1.7, 0.09]} />
-            {editMode === "move" ? (
-              <meshStandardMaterial color="#da2d52" />
-            ) : (
-              <meshStandardMaterial color="#e29b00" />
-            )}
-          </mesh>
-          <mesh
-            onClick={() => setEditMode("rotate")}
-            position={[-17, -3, -10]}
-          >
-            <boxGeometry args={[1.5, 1.5, 0.1]} />
-            <meshBasicMaterial map={rotateTexture} />
-          </mesh>
-          <mesh position={[-17, -3, -10]}>
-            <boxGeometry args={[1.7, 1.7, 0.09]} />
-            {editMode === "rotate" ? (
-              <meshStandardMaterial color="#da2d52" />
-            ) : (
-              <meshStandardMaterial color="#e29b00" />
-            )}
-          </mesh>
-          <mesh
-            onClick={() => setEditMode("scale")}
-            position={[-17, -5, -10]}
-          >
-            <boxGeometry args={[1.5, 1.5, 0.1]} />
-            <meshBasicMaterial map={scaleTexture} />
-          </mesh>
-          <mesh position={[-17, -5, -10]}>
-            <boxGeometry args={[1.7, 1.7, 0.09]} />
-            {editMode === "scale" ? (
-              <meshStandardMaterial color="#da2d52" />
-            ) : (
-              <meshStandardMaterial color="#e29b00" />
-            )}
-          </mesh>
-          <mesh
-            onClick={() =>
-              selectedIndex !== null && handleDelete(selectedIndex)
-            }
-            position={[-17, -7, -10]}
-          >
-            <boxGeometry args={[1.5, 1.5, 0.1]} />
-            <meshBasicMaterial map={deleteTexture} />
-          </mesh>
-          <mesh position={[-17, -7, -10]}>
-            <boxGeometry args={[1.7, 1.7, 0.09]} />
-            <meshStandardMaterial color="#e29b00" />
-          </mesh>
-          <mesh
-            position={[-8, -5, -10]}
-            onClick={() => {
-              setCakeRotation((prev) => ({
-                x: prev.x,
-                y: prev.y - Math.PI / 2,
-                z: prev.z,
-              }));
-              setDirection((prev) => (prev - 1 + 4) % 4);
-            }}
-          >
-            <boxGeometry args={[1.2, 1.2, 0.1]} />
-            <meshBasicMaterial map={leftTexture} />
-          </mesh>
-          <mesh position={[-8, -5, -10]}>
-            <boxGeometry args={[1.3, 1.3, 0.09]} />
-            <meshStandardMaterial color="#e29b00" />
-          </mesh>
-          <mesh
-            position={[8, -5, -10]}
-            onClick={() => {
-              setCakeRotation((prev) => ({
-                x: prev.x,
-                y: prev.y + Math.PI / 2,
-                z: prev.z,
-              }));
-              setDirection((prev) => (prev + 1) % 4);
-            }}
-          >
-            <boxGeometry args={[1.2, 1.2, 0.1]} />
-            <meshBasicMaterial map={rightTexture} />
-          </mesh>
-          <mesh position={[8, -5, -10]}>
-            <boxGeometry args={[1.3, 1.3, 0.09]} />
-            <meshStandardMaterial color="#e29b00" />
-          </mesh>
-          <mesh
-            onClick={isPlaying ? pauseAudio : playAudio}
-            position={[-8.5, 2.8, 0]}
-          >
-            <boxGeometry args={[0.6, 0.6, 0.1]} />
-            {isPlaying ? (
-            <meshBasicMaterial map={soundOnTexture} />
-            ) : (
-            <meshBasicMaterial map={soundOffTexture} />
-            )}
-          </mesh>
+          <SoundControl isPlaying={isPlaying} playAudio={playAudio} pauseAudio={pauseAudio} />
+          <ChangeControl />
+          <ButtonControl />
         </Suspense>
       </Canvas>
     </div>

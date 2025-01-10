@@ -92,8 +92,6 @@ function easeInOutSine(x: number): number {
 }
 
 export default function Page() {
-  const shareTexture = useLoader(TextureLoader, "/img/share.png");
-  const linkTexture = useLoader(TextureLoader, "/img/link.png");
   const router = useRouter();
   const [cake, setCake] = useState<string>("Circle");
   const [cakeDecorations, setCakeDecorations] = useState<
@@ -102,8 +100,31 @@ export default function Page() {
   const initialAnimationDone = useRef(false);
   const startTime = useRef<number | null>(null);
   const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
-  const soundOnTexture = useLoader(TextureLoader, "/img/soundOn.png");
-  const soundOffTexture = useLoader(TextureLoader, "/img/soundOff.png");
+
+  function LinkControl({}) {
+  const linkTexture = useLoader(TextureLoader, "/img/link.png");
+    return (
+  <mesh onClick={handleLink} position={[17, 7.3, -10]}>
+  <boxGeometry args={[2, 2, 0.1]} />
+  <meshBasicMaterial map={linkTexture} />
+</mesh>
+    )};
+  
+  function SoundControl({ isPlaying, playAudio, pauseAudio }: { isPlaying: boolean; playAudio: () => void; pauseAudio: () => void; }) {
+    const soundOnTexture = useLoader(TextureLoader, '/img/soundOn.png');
+    const soundOffTexture = useLoader(TextureLoader, '/img/soundOff.png');
+  
+    return (
+      <mesh onClick={isPlaying ? pauseAudio : playAudio} position={[-8.5, 2.8, 0]}>
+        <boxGeometry args={[0.6, 0.6, 0.1]} />
+        {isPlaying ? (
+          <meshBasicMaterial map={soundOnTexture} />
+        ) : (
+          <meshBasicMaterial map={soundOffTexture} />
+        )}
+      </mesh>
+    );
+  }
 
   function CameraController() {
     useFrame(({ camera }) => {
@@ -224,21 +245,8 @@ export default function Page() {
               scale={MODELS.Arrow2.defaultScale}
             />
           </mesh>
-          <mesh onClick={handleLink} position={[17, 7.3, -10]}>
-            <boxGeometry args={[2, 2, 0.1]} />
-            <meshBasicMaterial map={linkTexture} />
-          </mesh>
-          <mesh
-            onClick={isPlaying ? pauseAudio : playAudio}
-            position={[-8.5, 2.8, 0]}
-          >
-            <boxGeometry args={[0.6, 0.6, 0.1]} />
-            {isPlaying ? (
-              <meshBasicMaterial map={soundOnTexture} />
-            ) : (
-              <meshBasicMaterial map={soundOffTexture} />
-            )}
-          </mesh>
+          <LinkControl />
+          <SoundControl isPlaying={isPlaying} playAudio={playAudio} pauseAudio={pauseAudio} />
           <ScreenshotButton />
           <OrbitControls />
         </Suspense>
